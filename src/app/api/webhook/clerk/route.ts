@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       clerkId: id,
       email: email_addresses[0].email_address,
       username: username || "", // handle the case where username is missing or null
-      firstName: String(first_name),
+      firtsName: String(first_name),
       lastName: String(last_name),
       photo: image_url,
     }
@@ -78,13 +78,13 @@ export async function POST(req: Request) {
   
     return NextResponse.json({ message: 'OK', user: newUser })
   }
-  
 
+  
   if (eventType === 'user.updated') {
     const {id, image_url, first_name, last_name, username } = evt.data
 
     const user: UpdateUserParams = {
-      firstName: String(first_name),
+      firtsName: String(first_name),
       lastName: String(last_name),
       username: username!,
       photo: image_url,
