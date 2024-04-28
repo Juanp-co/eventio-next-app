@@ -1,35 +1,40 @@
-import { Schema, model, models, Document } from "mongoose";
+import { Document, Model, Schema, model, models } from "mongoose";
 
 export interface IEvent extends Document {
-    _id: string;
-    title: string;
-    description?: string;
-    location?: string;
-    createdAt: Date;
-    imageUrl: string;
-    startDataTime: Date;
-    endDataTime: Date;
-    price?: string;
-    isFree: boolean;
-    url?: string;
-    category: { _id: string, name: string };
-    organizer: { _id: string, lastName: string, firstName: string };
+  _id: string;
+  title: string;
+  description?: string;
+  location?: string;
+  createdAt: Date;
+  imageUrl: string;
+  startDateTime: Date;
+  endDateTime: Date;
+  price: string;
+  isFree: boolean;
+  url?: string;
+  category: { _id: string, name: string }
+  organizer: { _id: string, firstName: string, lastName: string }
+}
+
+export interface EventModel extends Model<IEvent> {
+    updateMany(conditions: any, update: any, options?: any): any;
 }
 
 const EventSchema = new Schema({
-    title: { type: String, required: true },
-    description: { type: String },
-    location: { type: String },
-    createdAt: { type: Date, default: Date.now },
-    imageUrl: { type: String, required: true },
-    startDataTime: { type: Date, default: Date.now },
-    endDataTime: { type: Date, default: Date.now },
-    price: { type: String},
-    isFree: { type: Boolean, default: false },
-    url: { type: String },
-    category: { type: Schema.Types.ObjectId, ref: 'Category' },
-    organizer: { type: Schema.Types.ObjectId, ref: 'User'},
-});
+  title: { type: String, required: true },
+  description: { type: String },
+  location: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  imageUrl: { type: String, required: true },
+  startDateTime: { type: Date, default: Date.now },
+  endDateTime: { type: Date, default: Date.now },
+  price: { type: String },
+  isFree: { type: Boolean, default: false },
+  url: { type: String },
+  category: { type: Schema.Types.ObjectId, ref: 'Category' },
+  organizer: { type: Schema.Types.ObjectId, ref: 'User' },
+})
 
-const Event = models.Event || model('Event', EventSchema)
+const Event = models.Event || model<IEvent, EventModel>('Event', EventSchema);
 
+export default Event;
